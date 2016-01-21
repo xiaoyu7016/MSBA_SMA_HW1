@@ -20,4 +20,5 @@ Calculate the financial value of the model
 #### Jan 20
 1. Comb through each feature
 2. Try a couple of different models
-3. Specify a measuring metric
+3. Specify a measuring metric (Check: Accuracy score or AUC score of ROC)
+4. Install hub and create pull-request from command line
