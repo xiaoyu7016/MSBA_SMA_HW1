@@ -9,9 +9,13 @@ import os
 
 from pandas import DataFrame,Series
 import pandas as pd
-from sklearn import linear_model
-import sklearn.metrics
 import numpy as np
+
+from sklearn import linear_model
+from sklearn import svm,grid_search
+import sklearn.metrics
+
+import matplotlib.pyplot as plt
 
 #########################
 # READ train.csv
@@ -22,6 +26,8 @@ raw_train = raw.iloc[:len(raw.index)*9/10,:]
 raw_test = raw.iloc[len(raw.index)*9/10:,:]
 
 #########################
+# Benchmark 
+
 # LOG-TRANS features
 # DIFFERENCE pairwise logarithmically-transformed features
 # TRAIN a plain logistic model
@@ -50,6 +56,42 @@ X_test = log_trans(X_test_A) - log_trans(X_test_B)
 
 y_pred = model_logit.predict(X_test)
 
-# Benchmark Confusion Matrix
-sklearn.metrics.confusion_matrix(y_test,y_pred)
+
+#########################
+# Confusion Matrix
+#########################
+cm_lgt = sklearn.metrics.confusion_matrix(y_test,y_pred)
+plt.matshow(cm_lgt)
+plt.colorbar()
+
+#########################
+# AUC score for ROC curve
+
+# In a symetric case where
+# TPR and TNR are of equal interest
+# we can just use accuracy score
+# or AUC score of ROC curve
+#########################
+
+# Accuracy Score
+accuracy_lgt = sklearn.metrics.accuracy_score(y_test,y_pred)
+
+# AUC score of ROC curve
+roc_auc_lgt = sklearn.metrics.roc_auc_score(y_test,y_pred)
+
+## Plot ROC curve
+tpr_lgt = 1.0 * cm_lgt[0,0]/(cm_lgt[0,0] + cm_lgt[0,1])
+fpr_lgt = 1.0 * cm_lgt[1,0]/(cm_lgt[1,0] + cm_lgt[1,1])
+plt.plot([0,fpr_lgt,1],[0,tpr_lgt,1],'ro-')
+plt.plot([0,1],[0,1],'b--')
+plt.axis([0,1,0,1])
+plt.show()
+
+
+#########################
+# Todo:
+# 1.Tree-based model --> importance of predictors
+# 2.SVM (w/ grid_search to optimize parameters)
+#########################
+
 
