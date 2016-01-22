@@ -11,8 +11,7 @@ from pandas import DataFrame,Series
 import pandas as pd
 import numpy as np
 
-from sklearn import linear_model
-from sklearn import svm,grid_search
+from sklearn import linear_model,ensemble,svm,grid_search
 import sklearn.metrics
 
 import matplotlib.pyplot as plt
@@ -38,6 +37,8 @@ def log_trans(x):
     return np.log(x+1)  # +1 to take care of 0 values
 
 # Train
+features = raw_train.iloc[:,1:12].columns
+
 y_train = raw_train.iloc[:,0]
 
 X_train_A = raw_train.iloc[:,1:12].as_matrix()
@@ -90,8 +91,21 @@ plt.show()
 
 #########################
 # Todo:
-# 1.Tree-based model --> importance of predictors
+# 1.Gradient Boosting --> importance of predictors
 # 2.SVM (w/ grid_search to optimize parameters)
 #########################
+model_gb = sklearn.ensemble.GradientBoostingClassifier()
+model_gb.fit(X_train,y_train)
+y_pred_gb = model_gb.predict(X_test)
 
+## Feature Importance Plotting
+bar_width = 0.5
+xtick_place = np.arange(0+bar_width/2,11+bar_width/2,1)
+
+plt.bar(range(0,11),model_gb.feature_importances_, bar_width)
+plt.xticks(xtick_place,features,rotation = 'vertical')
+plt.xlim(-bar_width,10+2*bar_width)
+plt.title("Gradient Boosting: Feature Importance",size=14)
+
+sklearn.metrics.accuracy_score(y_test,y_pred_gb)
 
