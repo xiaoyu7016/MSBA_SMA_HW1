@@ -17,7 +17,18 @@ Calculate the financial value of the model
 1. Touch upon the problem by creating a naive benchmark model
 2. Learn basics of GitHub
 
-#### Jan 20
+#### Jan 20 - 21
 1. Comb through each feature
-2. Try a couple of different models
-3. Specify a measuring metric
+2. Try a couple of different models (Gradient Boosting -- for built-in feature selection)
+3. Specify a measuring metric (Check: Accuracy score or AUC score of ROC)
+4. Install hub and create pull-request from command line (Check)
+
+#### Jan 22 - 23 (Finish up)
+1. Optimize params for Gradient Boosting (grid_search)(Check)
+2. Finalize feature selection (Check)
+3. Try other models (SVM) (Check)
+
+#### Conclusion
+1. Accuracy measuare: accuracy score (TP <=> TN)
+2. Drop 5 features at a cost of <1% decrease in accuracy
+2. Best model: logistc w/ log-transformed feature (accuracy = 79.82%)
